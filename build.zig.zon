@@ -1,0 +1,25 @@
+.{
+    .name = .raylibtimekiosk,
+    .version = "0.1.0",
+    .dependencies = .{
+        .raylib = .{
+            .url = "https://github.com/raysan5/raylib/archive/refs/heads/master.zip",
+            .hash = "raylib-5.6.0-dev-whq8uE4nCQXRtN7EtsFfUnISMGFz_cuU2-h4QzkOr3iw",
+        },
+    },
+    .raudio = true,
+    .rmodels = true,
+    .rshapes = true,
+    .rtext = true,
+    .rtextures = true,
+    .platform = .glfw,
+    .linkage = .static,
+    .linux_display_backend = .Wayland,
+    .opengl_version = .auto,
+    .android_ndk = "",
+    .android_api_version = "35",
+    .config = "",
+    .minimum_zig_version = "0.15.1",
+    .paths = .{""},
+    .fingerprint = 0x3f0e32e39147461b,
+}
