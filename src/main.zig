@@ -88,7 +88,7 @@ pub fn main() !void {
         const yd = ed.calculateYearDay();
         const md = yd.calculateMonthDay();
         const ds = es.getDaySeconds();
-        const day_of_the_week: usize = @intCast(@mod(@divTrunc(ts, ed.day) + 3, 7));
+        const day_of_the_week: usize = @intCast(@mod(@divTrunc(ts, epoch.secs_per_day) + 3, 7));
         const week_number = @divTrunc(yd.day, 7) + 1;
 
         try writer.print("{d:02}:{d:02}:{d:02}", .{
