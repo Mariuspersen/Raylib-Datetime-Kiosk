@@ -35,7 +35,7 @@ const DayStrings = [_][]const u8{
 };
 
 const MonthStrings = [_][]const u8{
-    "day of the end times",
+    "End Times",
     "January",
     "February",
     "March",
