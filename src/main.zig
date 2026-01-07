@@ -50,6 +50,22 @@ const MonthStrings = [_][]const u8{
     "December",
 };
 
+fn getTimeZoneBias() i32 {
+    switch (@import("builtin").os.tag) {
+        .windows => {
+            const windows = @cImport(
+              @cInclude("windows.h"),  
+            );
+            var tzinfo = std.mem.zeroes(windows.struct__TIME_ZONE_INFORMATION);
+            _ = windows.GetTimeZoneInformation(&tzinfo);
+            return @intCast((tzinfo.StandardBias + tzinfo.DaylightBias) * 60);
+        },
+        else => {
+            return 0;
+        }
+    }
+}
+
 pub fn main() !void {
     raylib.InitWindow(
         raylib.GetScreenWidth(),
@@ -82,14 +98,14 @@ pub fn main() !void {
             else => {},
         };
 
-        const ts = std.time.timestamp();
+        const ts = std.time.timestamp() - getTimeZoneBias();
         const es = epoch.EpochSeconds{ .secs = @intCast(ts) };
         const ed = es.getEpochDay();
         const yd = ed.calculateYearDay();
         const md = yd.calculateMonthDay();
         const ds = es.getDaySeconds();
         const day_of_the_week: usize = @intCast(@mod(@divTrunc(ts, epoch.secs_per_day) + 3, 7));
-        const week_number = @divTrunc(yd.day, 7) + 1;
+        const week_number = @divTrunc((yd.day + 1) - day_of_the_week + 10, 7 );
 
         try writer.print("{d:02}:{d:02}:{d:02}", .{
             ds.getHoursIntoDay(),
@@ -111,7 +127,7 @@ pub fn main() !void {
 
         try writer.print("{s} - {d} {s}", .{
             DayStrings[day_of_the_week],
-            md.day_index,
+            md.day_index + 1,
             MonthStrings[md.month.numeric()],
         });
         try writer.writeByte(0);
