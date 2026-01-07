@@ -19,7 +19,7 @@
     .android_ndk = "",
     .android_api_version = "35",
     .config = "",
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.16.0-dev.1912+0cbaaa5eb",
     .paths = .{""},
     .fingerprint = 0x63ef57381f6960db,
 }

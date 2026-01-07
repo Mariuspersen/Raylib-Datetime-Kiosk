@@ -46,6 +46,6 @@ pub fn build(b: *std.Build) void {
         .name = "main",
         .root_module = root,
     });
-    exe.linkLibrary(raylib);
+    exe.root_module.linkLibrary(raylib);
     b.installArtifact(exe);
 }

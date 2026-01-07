@@ -84,7 +84,10 @@ pub fn main() !void {
     const week_fontsize = getMaximumFontSize("Week 55");
 
     var buffer: [128:0]u8 = undefined;
-    var writer = std.io.Writer.fixed(&buffer);
+    var writer = std.Io.Writer.fixed(&buffer);
+
+    var threaded = std.Io.Threaded.init_single_threaded;
+    const io = threaded.io();
 
     while (!raylib.WindowShouldClose() and looping) {
         raylib.BeginDrawing();
@@ -97,8 +100,9 @@ pub fn main() !void {
             raylib.KEY_Q => looping = !looping,
             else => {},
         };
-
-        const ts = std.time.timestamp() - getTimeZoneBias();
+        
+        const now = try std.Io.Clock.real.now(io);
+        const ts = now.toSeconds() - getTimeZoneBias();
         const es = epoch.EpochSeconds{ .secs = @intCast(ts) };
         const ed = es.getEpochDay();
         const yd = ed.calculateYearDay();
